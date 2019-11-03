@@ -26,6 +26,10 @@ stack_top:
 _start:
 	movl $stack_top, %esp
 
+	# Set GDT and IDT
+	call init_gdt
+	call init_idt
+
 	# Call the global constructors.
 	call _init
 

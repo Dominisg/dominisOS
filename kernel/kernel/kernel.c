@@ -4,5 +4,6 @@
 
 void kernel_main(void) {
 	terminal_initialize();
-	printf("dominisOS");
+	asm volatile ("int $0x01");
+	printf("\tdominisOS");
 }

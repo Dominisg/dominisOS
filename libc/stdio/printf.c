@@ -61,6 +61,17 @@ int printf(const char* restrict format, ...) {
 			if (!print(str, len))
 				return -1;
 			written += len;
+		} else if (*format == 'd'){
+			const char* str = va_arg(parameters, const char*);
+			size_t len = strlen(str);
+			if (maxrem < len) {
+				// TODO: Set errno to EOVERFLOW.
+				return -1;
+			}
+			if (!print(str, len))
+				return -1;
+			written += len;
+
 		} else {
 			format = format_begun_at;
 			size_t len = strlen(format);
