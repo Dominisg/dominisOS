@@ -1,4 +1,5 @@
 #include <kernel/idt.h>
+#include <string.h>
 
 static void idt_set_gate(uint8_t,uint32_t,uint16_t,uint8_t);
 

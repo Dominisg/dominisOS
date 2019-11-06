@@ -12,6 +12,11 @@ extern "C" {
 __attribute__((__noreturn__))
 void abort(void);
 
+char* lltoa(long long int value, char* buffer, int base);
+char* ltoa(long int value, char* buffer, int base);
+char* itoa(int value, char* buffer, int base);
+int abs (int i);
+
 #ifdef __cplusplus
 }
 #endif

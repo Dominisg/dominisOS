@@ -5,5 +5,5 @@
 // This gets called from our ASM interrupt handler stub.
 void isr_handler(registers_t* regs)
 {
-    printf("\nRecived interrupt:\n");
+    printf("\nRecived interrupt: %x \n", regs->int_no);
 } 
