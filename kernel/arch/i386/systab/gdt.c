@@ -1,8 +1,7 @@
 #include <kernel/gdt.h>
 
 extern void gdt_flush(uint32_t);
-
-static void gdt_set_gate(uint32_t, uint32_t, uint32_t, uint8_t,uint8_t);
+static void gdt_set_gate(uint32_t, uint32_t, uint32_t, uint8_t, uint8_t);
 
 gdt_entry_t gdt_entries[5];
 gdt_ptr_t   gdt_ptr;

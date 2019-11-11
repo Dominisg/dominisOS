@@ -1,5 +1,8 @@
 #include <kernel/idt.h>
+#include <kernel/isr.h>
+#include <kernel/pic.h>
 #include <string.h>
+
 
 static void idt_set_gate(uint8_t,uint32_t,uint16_t,uint8_t);
 
@@ -12,11 +15,13 @@ void init_idt()
     idt_ptr.base  = (uint32_t)&idt_entries;
 
     memset(&idt_entries, 0, sizeof(idt_entry_t)*256);
+    PIC_remap(0x20, 0x28);
 
     // 0x8E means:
     // 7    P = 1 - segment is present,
     // 5-6  DPL - 00 = the highest privilage level,
     // 0-4  01110 - static bytes
+    // 0x08 kernel segment selector
     idt_set_gate( 0, (uint32_t)isr0 , 0x08, 0x8E);
     idt_set_gate( 1, (uint32_t)isr1 , 0x08, 0x8E);
     idt_set_gate( 2, (uint32_t)isr2 , 0x08, 0x8E);
@@ -49,6 +54,23 @@ void init_idt()
     idt_set_gate( 29, (uint32_t)isr29 , 0x08, 0x8E);
     idt_set_gate( 30, (uint32_t)isr30 , 0x08, 0x8E);
     idt_set_gate( 31, (uint32_t)isr31 , 0x08, 0x8E);
+
+    idt_set_gate( IRQ0, (uint32_t)irq0 , 0x08, 0x8E);
+    idt_set_gate( IRQ1, (uint32_t)irq1 , 0x08, 0x8E);
+    idt_set_gate( IRQ2, (uint32_t)irq2 , 0x08, 0x8E);
+    idt_set_gate( IRQ3, (uint32_t)irq3 , 0x08, 0x8E);
+    idt_set_gate( IRQ4, (uint32_t)irq4 , 0x08, 0x8E);
+    idt_set_gate( IRQ5, (uint32_t)irq5 , 0x08, 0x8E);
+    idt_set_gate( IRQ6, (uint32_t)irq6 , 0x08, 0x8E);
+    idt_set_gate( IRQ7, (uint32_t)irq7 , 0x08, 0x8E);
+    idt_set_gate( IRQ8, (uint32_t)irq8 , 0x08, 0x8E);
+    idt_set_gate( IRQ9, (uint32_t)irq9 , 0x08, 0x8E);
+    idt_set_gate( IRQ10, (uint32_t)irq10 , 0x08, 0x8E);
+    idt_set_gate( IRQ11, (uint32_t)irq11 , 0x08, 0x8E);
+    idt_set_gate( IRQ12, (uint32_t)irq12 , 0x08, 0x8E);
+    idt_set_gate( IRQ13, (uint32_t)irq13 , 0x08, 0x8E);
+    idt_set_gate( IRQ14, (uint32_t)irq14 , 0x08, 0x8E);
+    idt_set_gate( IRQ15, (uint32_t)irq15 , 0x08, 0x8E);
 
     idt_flush((uint32_t)&idt_ptr);
 }

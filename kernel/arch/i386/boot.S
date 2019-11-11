@@ -32,6 +32,7 @@ _start:
 
 	# Call the global constructors.
 	call _init
+	sti
 
 	# Transfer control to the main kernel.
 	call kernel_main

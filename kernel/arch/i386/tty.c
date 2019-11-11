@@ -52,6 +52,7 @@ void terminal_putchar(char c) {
 		for(size_t i = VGA_WIDTH * (VGA_HEIGHT - 1); i < VGA_WIDTH * VGA_HEIGHT; i++){
 		    terminal_buffer[i] = vga_entry(' ', terminal_color);
 		}
+		terminal_row--;
 		terminal_scroll = 0;
 	}
 	if(c == '\n'){
