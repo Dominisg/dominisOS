@@ -2,6 +2,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <string.h>
+#include <time.h>
 
 #include <kernel/tty.h>
 
@@ -17,7 +18,7 @@ static uint8_t terminal_color;
 static uint16_t* terminal_buffer;
 static uint8_t terminal_scroll;
 void terminal_initialize(void) {
-	terminal_row = 0;
+	terminal_row = 1;
 	terminal_column = 0;
 	terminal_scroll = 0;
 	terminal_color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
@@ -27,6 +28,16 @@ void terminal_initialize(void) {
 			const size_t index = y * VGA_WIDTH + x;
 			terminal_buffer[index] = vga_entry(' ', terminal_color);
 		}
+	}
+}
+
+void terminal_printclock(struct tm* sys_time){
+	char buffer[24], *ptr;
+	ptr = buffer;
+	strftime(buffer, 24, "%H:%M:%S  %d-%m-%Y",sys_time);
+	while(*ptr){
+		terminal_buffer[29 + ptr - buffer] = vga_entry(*ptr, terminal_color);
+		ptr++;
 	}
 }
 

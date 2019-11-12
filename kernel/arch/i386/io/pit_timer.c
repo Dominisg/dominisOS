@@ -8,8 +8,9 @@ uint32_t tick = 0;
 
 static void timer_callback(registers_t* regs)
 {
-    tick++;
-    printf("Tick %d \n", tick);
+    struct tm* sys_time;
+	sys_time = (struct tm*)read_rtc();
+    terminal_printclock(sys_time);
 }
 
 void init_timer(uint32_t frequency)

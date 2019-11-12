@@ -43,6 +43,7 @@ string/memmove.o \
 string/memset.o \
 string/strlen.o \
 ctype/isdigit.o \
+time/strftime.o \
 
 HOSTEDOBJS=\
 $(ARCH_HOSTEDOBJS) \
