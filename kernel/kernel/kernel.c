@@ -3,6 +3,7 @@
 #include <kernel/tty.h>
 #include <kernel/pic.h>
 #include <kernel/clock.h>
+#include <kernel/acpi.h>
 #include <time.h>
 
 
@@ -16,6 +17,9 @@ void kernel_main(void) {
 "| (_| | (_) | | | | | | | | | | \\__ \\/ \\_// _\\ \\ \n"   
 " \\__,_|\\___/|_| |_| |_|_|_| |_|_|___/\\___/  \\__/ \n");
 
+	if(getFADT()){
+		printf("Mamy FADT!\n");
+	}
 
 	while(1);
 }
