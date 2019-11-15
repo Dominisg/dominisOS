@@ -5,7 +5,7 @@ size_t strftime(char *s, size_t max, const char *format,
                 const struct tm *tm)
 {
     int written = 0;
-    size_t maxrem;
+    size_t maxrem = 0;
     while (*format != '\0') {
 		maxrem = max - written;
 

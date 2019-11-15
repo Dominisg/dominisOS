@@ -20,12 +20,12 @@ struct RSDPDescriptor20 {
 
 struct RSDT {
   struct ACPISDTHeader h;
-  uint32_t *PointerToOtherSDT;
+  uint32_t PointerToOtherSDT[];
 };
 
 struct XSDT {
   struct ACPISDTHeader h;
-  uint64_t *PointerToOtherSDT;
+  uint64_t PointerToOtherSDT[];
 };
 
 
@@ -81,19 +81,18 @@ static uint32_t findFADT(void *RootSDT, uint8_t revision)
         for (uint32_t i = 0; i < entries; i++)
         {
             struct ACPISDTHeader *h = (struct ACPISDTHeader *)(uint32_t) xsdt->PointerToOtherSDT[i];
-            if (!memcmp(h->Signature, "FACP", 4))
-                return  acpiDoChecksum(h) ? (uint32_t) h : 0; 
+            if (memcmp(h->Signature, "FACP", 4) == 0)
+                    return  acpiDoChecksum(h) ? (uint32_t) h : 0; 
         }
     
         
     } else{
         struct RSDT *rsdt = (struct RSDT *) RootSDT;
         uint32_t entries = (rsdt->h.Length - sizeof(rsdt->h)) / 4;
-    
         for (uint32_t i = 0; i < entries; i++)
         {
             struct ACPISDTHeader *h = (struct ACPISDTHeader *) rsdt->PointerToOtherSDT[i];
-            if (!memcmp(h->Signature, "FACP", 4)){
+            if (memcmp(h->Signature, "FACP", 4) == 0){
                 return  acpiDoChecksum(h) ? (uint32_t) h : 0; 
             }
 
@@ -112,7 +111,7 @@ uint32_t getFADT(){
     struct RSDPDescriptor20 *rsdp = NULL;
     void *RootSDT;
 
-    if((rsdp = findRSDPDescriptor())==0){
+    if((rsdp = (void *)findRSDPDescriptor())==0){
         return 0;
     }
 
@@ -120,14 +119,14 @@ uint32_t getFADT(){
         if(!acpiDoChecksum((void*)rsdp->firstPart.RsdtAddress)){
             return 0;
         }
-        printf("Mamy RSDT\n");
         RootSDT = (void*)rsdp->firstPart.RsdtAddress;
+        printf("Mamy RSDT, adres:%x\n", RootSDT);
     }else{
         if(!acpiDoChecksum((void*)(uint32_t)rsdp->XsdtAddress)){
             return 0;
         }
         RootSDT = (void*)(uint32_t)rsdp->XsdtAddress;
-        printf("Mamy XSDT\n");
+        printf("Mamy XSDT, adres:%x\n", RootSDT);
     }
 
     return findFADT(RootSDT, rsdp->firstPart.Revision);

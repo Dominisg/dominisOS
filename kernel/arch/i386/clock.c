@@ -25,7 +25,7 @@ static uint8_t get_RTC_register(uint32_t reg) {
  
 uint32_t read_rtc() {
       struct tm last_time;
-      uint32_t century, last_century;
+      uint32_t century = 0, last_century;
       uint8_t registerB;
  
       // Note: This uses the "read registers until you get the same values twice in a row" technique

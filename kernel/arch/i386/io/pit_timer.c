@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <kernel/pic.h>
 #include <kernel/io_utils.h>
+#include <kernel/tty.h>
+#include <kernel/clock.h>
 
 uint32_t tick = 0;
 
