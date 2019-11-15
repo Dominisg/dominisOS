@@ -37,11 +37,11 @@ static uint32_t findRSDPDescriptor(){
    char *edba = (char*)(uint32_t) *edba_ptr_location;
    char *ptr = edba;
 
-    // Unsure if it's correct. Needing checking.
+
     for (uint32_t i = 0; i < 1024; i++){
         if(memcmp(ptr, "RSD PTR ", 8) == 0 ){
             rsdp = (struct RSDPDescriptor20 *) ptr;
-            printf("RSDPtr : %x\n", (uint32_t) rsdp);
+            //printf("RSDPtr : %x\n", (uint32_t) rsdp);
             return (uint32_t) rsdp;
         }
         ptr++;
@@ -50,7 +50,7 @@ static uint32_t findRSDPDescriptor(){
     while(ptr != (char*)0xFFFFF){
         if(memcmp(ptr, "RSD PTR ", 8) == 0){
             rsdp = (struct RSDPDescriptor20 *) ptr;
-            printf("RSDPtr : %x\n", (uint32_t) rsdp);
+            //printf("RSDPtr : %x\n", (uint32_t) rsdp);
             return (uint32_t) rsdp;
         }
         ptr++;
@@ -95,7 +95,6 @@ static uint32_t findFADT(void *RootSDT, uint8_t revision)
             if (memcmp(h->Signature, "FACP", 4) == 0){
                 return  acpiDoChecksum(h) ? (uint32_t) h : 0; 
             }
-
         }
     }
 
@@ -120,13 +119,13 @@ uint32_t getFADT(){
             return 0;
         }
         RootSDT = (void*)rsdp->firstPart.RsdtAddress;
-        printf("Mamy RSDT, adres:%x\n", RootSDT);
+        //printf("This PC has RSDT, address:%x\n", RootSDT);
     }else{
         if(!acpiDoChecksum((void*)(uint32_t)rsdp->XsdtAddress)){
             return 0;
         }
         RootSDT = (void*)(uint32_t)rsdp->XsdtAddress;
-        printf("Mamy XSDT, adres:%x\n", RootSDT);
+        //printf("This PC has XSDT, address:%x\n", RootSDT);
     }
 
     return findFADT(RootSDT, rsdp->firstPart.Revision);

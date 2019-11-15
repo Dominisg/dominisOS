@@ -2,6 +2,7 @@
 #include <string.h>
 #include <kernel/io_utils.h>
 #include <kernel/clock.h>
+#include <kernel/acpi.h>
 
 #define CURRENT_YEAR        2019
  
@@ -27,6 +28,12 @@ uint32_t read_rtc() {
       struct tm last_time;
       uint32_t century = 0, last_century;
       uint8_t registerB;
+      if(century_register == 0){
+            struct FADT *fadt = (void*) getFADT();
+            if(fadt){
+                  century_register = fadt->Century;
+            }
+      }
  
       // Note: This uses the "read registers until you get the same values twice in a row" technique
       //       to avoid getting dodgy/inconsistent values due to RTC updates
