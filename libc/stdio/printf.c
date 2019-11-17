@@ -80,7 +80,7 @@ int printf(const char* restrict format, ...) {
 			str[0]='0';
 			str[1]='x';
 			
-			lltoa(va_arg(parameters, long long int), &str[2], 16);
+			lltoa(va_arg(parameters, int), &str[2], 16);
 			size_t len = strlen(str);
 			if (maxrem < len) {
 				// TODO: Set errno to EOVERFLOW.

@@ -3,12 +3,14 @@
 #include <kernel/tty.h>
 #include <kernel/pic.h>
 #include <kernel/clock.h>
+#include <kernel/ps2.h>
 #include <time.h>
 
 
 void kernel_main(void) {
-	terminal_initialize();
-	init_timer(50);	
+	terminal_init();
+	timer_init(50);
+	PS2Controller_Init();
 	printf(   
 "     _                 _       _        ___  __  \n"    
 "  __| | ___  _ __ ___ (_)_ __ (_)___   /___\\/ _\\ \n"   
