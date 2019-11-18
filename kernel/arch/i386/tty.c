@@ -59,7 +59,7 @@ void terminal_putchar(char c) {
 	    return;
 	}
 	if(terminal_scroll == 1){
-	    	memcpy(&terminal_buffer[0], &terminal_buffer[VGA_WIDTH], VGA_WIDTH * (VGA_HEIGHT-1) * 2);
+	    	memcpy(&terminal_buffer[VGA_WIDTH], &terminal_buffer[2*VGA_WIDTH], VGA_WIDTH * (VGA_HEIGHT-1) * 2);
 		for(size_t i = VGA_WIDTH * (VGA_HEIGHT - 1); i < VGA_WIDTH * VGA_HEIGHT; i++){
 		    terminal_buffer[i] = vga_entry(' ', terminal_color);
 		}
