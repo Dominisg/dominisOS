@@ -33,7 +33,7 @@ static uint8_t PS2Controller_WaitForWrite(){
         io_wait();
         status = inb(PS2_CMD_PORT);
         if(pit_timeout_reached())
-        return 1;
+            return 1;
     }
     pit_timeout_unset();
     return 0;

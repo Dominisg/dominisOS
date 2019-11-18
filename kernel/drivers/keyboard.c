@@ -32,6 +32,25 @@ uint8_t keypressed_map[128] ={0, KB_F9, 0, KB_F5, KB_F3, KB_F1, KB_F2, KB_F12, 0
 /*120*/KB_F11, '+', '3', '-', '*', '9', KB_SCROLLLOCK
 };
 
+uint8_t _123456789_shiftmap[10]={
+    '!','@','#','$','%','^','&','*','('
+};
+
+uint8_t _key_value_shiftmap[24]={
+        '0', ')',
+        '`','~',
+        ',','<',
+        '.','>',
+        '/', '?',
+        ';', ':',
+        '\'','"',
+        '[', '{',
+        ']', '}',
+        '-', '_',
+        '=', '+',
+        '\\', '|',
+};
+
 void keyboard_callback(){
     uint8_t character;
     uint8_t code = PS2Controller_Read();
@@ -45,7 +64,7 @@ void keyboard_callback(){
         return;
     }
 
-    if(code < 128){
+    if(code < 128 && code > 0){
         character = (char)keypressed_map[code];
         switch(character){
         case KB_RSHIFT:
@@ -53,13 +72,26 @@ void keyboard_callback(){
             state |= KB_STATE_SHIFT_PRESSED;
             return;
         default:
-        if(character <= 'z' && character >= 'a' ){
-            if(state & KB_STATE_SHIFT_PRESSED){
-                character = character -'a' + 'A';
+            if(state & KB_STATE_SHIFT_PRESSED && code < 100){
+                if(character <= 'z' && character >= 'a' ){
+                    character = character -'a' + 'A';
+                }
+                else if(character <= '9' && character >='1'){
+                    character = _123456789_shiftmap[character-'1'];
+                }
+                else{
+                    for(int i=0; i<12; i++){
+                        if(_key_value_shiftmap[2 * i] == character){
+                            character = _key_value_shiftmap[2 * i + 1];
+                        }
+                    }
+                }
+            
             }
+            printf("%c", character);
+            break;
         }
-        printf("%c", character);
-    }
+        
     }else{
         switch(code){
             case KB_KEY_RELEASE:
