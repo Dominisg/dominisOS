@@ -2,10 +2,11 @@
 #include <kernel/acpi.h>
 #include <kernel/io_utils.h>
 #include <kernel/pit_timer.h>
+#include <kernel/isr.h>
+#include <kernel/keyboard.h>
 #include <stdio.h>
 
 #define TIMEOUT_DURATION 50
-
 #define PS2_DATA_PORT 0x60
 #define PS2_CMD_PORT 0x64
 #define ACK_CMD 0xFA
@@ -14,7 +15,6 @@
 #define SELFTESTPASSED_CMD 0xAA
 #define DISABLESCANING_CMD 0xF5
 #define ENABLESCANING_CMD 0xF4
-
 
 static uint8_t PS2Controller_Exists(){
     struct FADT *fadt = (void*) getFADT();
@@ -84,7 +84,7 @@ void PS2Controller_WriteSecondPort(uint8_t data){
     PS2Controller_Write(data);
 }
 
-void PS2Controller_InstallDriver(uint8_t second_port){
+static void PS2Controller_InstallDriver(uint8_t second_port){
     uint8_t result, identity=0, identity2=0;
 
     second_port ? PS2Controller_Write(DISABLESCANING_CMD) : PS2Controller_WriteSecondPort(DISABLESCANING_CMD);
@@ -105,16 +105,20 @@ void PS2Controller_InstallDriver(uint8_t second_port){
     identity2 = PS2Controller_Read();
     printf("PS/2: Identity response: %x, %x (port %d)\n", identity, identity2, (second_port!=0?2:1));
 
+    second_port ? PS2Controller_Write(ENABLESCANING_CMD) : PS2Controller_WriteSecondPort(ENABLESCANING_CMD);
+    if((result = PS2Controller_Read()) != ACK_CMD){
+        printf("PS/2: Enable scanning result: %x (port %d)\n", result, (second_port!=0?2:1));
+        //return 0;
+    }
+
     switch(identity){
         case 0xAB: //keyboard
-            
+            init_keyboard(second_port?IRQ1:IRQ12);
         break;
         case 0x00: // mouse
-
         break;
     }
 
-    second_port ? PS2Controller_Write(ENABLESCANING_CMD) : PS2Controller_WriteSecondPort(ENABLESCANING_CMD);
 }
 
 uint8_t PS2Controller_Init(){
@@ -143,7 +147,7 @@ uint8_t PS2Controller_Init(){
     result = PS2Controller_Read();
     if(result != 0x55){
         printf("PS/2: Self test failed!\n");
-        return 1;
+        //return 1;
     }
 
     if(dualchannel){
@@ -227,7 +231,6 @@ uint8_t PS2Controller_Init(){
     if(port1device){
         PS2Controller_InstallDriver(0);
     }
-
     if(dualchannel){
         PS2Controller_InstallDriver(1);
     }
