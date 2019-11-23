@@ -31,6 +31,7 @@ LIBS:=$(LIBS) $(KERNEL_ARCH_LIBS)
 KERNEL_OBJS=\
 $(KERNEL_ARCH_OBJS) \
 $(KERNEL_DRIVERS_OBJS) \
+kernel/term.o \
 kernel/kernel.o \
 
 OBJS=\

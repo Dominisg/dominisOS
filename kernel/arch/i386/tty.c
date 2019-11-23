@@ -3,10 +3,12 @@
 #include <stdint.h>
 #include <string.h>
 #include <time.h>
+#include <kernel/io_utils.h>
 
 #include <kernel/tty.h>
 
 #include "vga.h"
+static void update_cursor(uint8_t x, uint8_t y);
 
 static const size_t VGA_WIDTH = 80;
 static const size_t VGA_HEIGHT = 25;
@@ -76,6 +78,7 @@ void terminal_putchar(char c) {
 		if (++terminal_row == VGA_HEIGHT)
 			terminal_scroll = 1;
 	}
+	update_cursor(terminal_column, terminal_row);
 }
 
 void terminal_write(const char* data, size_t size) {
@@ -87,3 +90,20 @@ void terminal_writestring(const char* data) {
 	terminal_write(data, strlen(data));
 }
 
+void terminal_popchar(){
+	if(terminal_column > 0){
+		terminal_column --;
+		terminal_putentryat(' ', terminal_color, terminal_column, terminal_row);
+		update_cursor(terminal_column, terminal_row);
+	}
+}
+
+static void update_cursor(uint8_t x, uint8_t y)
+{
+	uint16_t pos = y * VGA_WIDTH + x;
+ 
+	outb(0x3D4, 0x0F);
+	outb(0x3D5, (uint8_t) (pos & 0xFF));
+	outb(0x3D4, 0x0E);
+	outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
+}

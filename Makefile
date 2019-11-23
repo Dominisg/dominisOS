@@ -19,7 +19,7 @@ PROJECTS:=libc kernel
 
 all: install-headers $(PROJECTS)
 
-run: all iso run
+run: all iso qemu
 
 debug: all iso qemu-debug
 
@@ -39,13 +39,12 @@ iso:
 	cp sysroot/boot/myos.kernel isodir/boot/myos.kernel
 	echo 'menuentry "dominisOS" { multiboot /boot/myos.kernel }' > isodir/boot/grub/grub.cfg 
 	grub-mkrescue -o dominisos.iso isodir
-	qemu-system-i386 -cdrom dominisos.iso
 
 qemu: 
-	qemu-system-i386 -cdrom dominisos.iso 
+	qemu-system-i386 -cdrom dominisos.iso -hda sda.img -boot d
 
 qemu-debug: 
-	qemu-system-i386 -s -S -cdrom dominisos.iso 
+	qemu-system-i386 -s -S -cdrom dominisos.iso -hda sda.img -boot d
 
 clean:
 	for PROJECT in $(PROJECTS); do \

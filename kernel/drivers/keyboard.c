@@ -1,6 +1,7 @@
 #include <kernel/keyboard.h>
 #include <kernel/ps2.h>
 #include <kernel/isr.h>
+#include <kernel/term.h>
 #include <stdio.h>
 
 #define KB_STATE_KEY_RELEASED 0x1
@@ -71,6 +72,9 @@ void keyboard_callback(){
         case KB_LSHIFT:
             state |= KB_STATE_SHIFT_PRESSED;
             return;
+        case KB_BACKSPACE:
+            shell_backspace();
+            return;
         default:
             if(state & KB_STATE_SHIFT_PRESSED && code < 100){
                 if(character <= 'z' && character >= 'a' ){
@@ -86,9 +90,10 @@ void keyboard_callback(){
                         }
                     }
                 }
-            
+                
+            }if(character < 128){
+                shell_putchar(character);
             }
-            printf("%c", character);
             break;
         }
         

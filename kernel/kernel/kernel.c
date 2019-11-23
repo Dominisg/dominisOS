@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <kernel/pit_timer.h>
 #include <kernel/tty.h>
+#include <kernel/term.h>
 #include <kernel/pic.h>
 #include <kernel/clock.h>
 #include <kernel/ps2.h>
@@ -18,6 +19,6 @@ void kernel_main(void) {
 "| (_| | (_) | | | | | | | | | | \\__ \\/ \\_// _\\ \\ \n"   
 " \\__,_|\\___/|_| |_| |_|_|_| |_|_|___/\\___/  \\__/ \n");
 
-
+	shell_init();
 	while(1);
 }
