@@ -12,6 +12,18 @@ uint8_t inb(uint16_t port)
     return ret;
 }
 
+void outl(uint16_t port, uint32_t val)
+{
+    asm volatile ("outl %1, %0" : : "dN" (port), "a" (val));
+}
+
+uint32_t inl(uint16_t port)
+{
+    uint32_t ret;
+    asm volatile("inl %1, %0" : "=a" (ret) : "dN" (port));
+    return ret;
+}
+
 void io_wait(void)
 {
     /* TODO: This is probably fragile. */

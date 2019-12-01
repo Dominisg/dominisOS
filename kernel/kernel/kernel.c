@@ -3,15 +3,19 @@
 #include <kernel/tty.h>
 #include <kernel/term.h>
 #include <kernel/pic.h>
+#include <kernel/pci.h>
 #include <kernel/clock.h>
 #include <kernel/ps2.h>
+#include <kernel/ata.h>
 #include <time.h>
 
 
 void kernel_main(void) {
 	terminal_init();
-	timer_init(50);
+	timer_init(PIT_DEFAULT);
 	PS2Controller_Init();
+	findIDEConrollerDevice();
+	ide_initialize(0x1F0, 0x3F6, 0x170, 0x376, 0x000);
 	printf(   
 "     _                 _       _        ___  __  \n"    
 "  __| | ___  _ __ ___ (_)_ __ (_)___   /___\\/ _\\ \n"   

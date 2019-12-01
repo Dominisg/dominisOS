@@ -6,4 +6,7 @@ void timer_init(uint32_t frequency);
 void pit_timeout_set(uint32_t val);
 void pit_timeout_unset();
 uint8_t pit_timeout_reached();
+void sleep(uint32_t ms);
+
+#define PIT_DEFAULT 50
 #endif 

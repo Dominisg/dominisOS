@@ -8,6 +8,7 @@
 
 uint32_t tick = 0;
 static uint32_t pit_timeout_value = 0;
+static uint32_t sleep_count = 0;
 
 uint8_t pit_timeout_reached(){
     return pit_timeout_value > 0 ? 0 : 1;
@@ -29,6 +30,9 @@ static void timer_callback(registers_t* regs)
     
     if(pit_timeout_value){
         pit_timeout_value--;
+    }
+    if(sleep_count){
+        sleep_count--;
     }
 }
 
@@ -53,3 +57,9 @@ void timer_init(uint32_t frequency)
    outb(0x40, l);
    outb(0x40, h);
 } 
+
+void sleep(uint32_t ms){
+    while(sleep_count){
+        
+    };
+}
