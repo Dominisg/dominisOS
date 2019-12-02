@@ -5,5 +5,5 @@
 #define ATA_H
 #include <stddef.h>
 #include <stdint.h>
-void ide_initialize(unsigned int BAR0, unsigned int BAR1, unsigned int BAR2, unsigned int BAR3,unsigned int BAR4);
+void ide_initialize(uint32_t BAR0, uint32_t BAR1, uint32_t BAR2, uint32_t BAR3, uint32_t BAR4);
 #endif //ATA_H

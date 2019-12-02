@@ -8,7 +8,8 @@
 
 uint32_t tick = 0;
 static uint32_t pit_timeout_value = 0;
-static uint32_t sleep_count = 0;
+static volatile uint32_t sleep_count = 0;
+static uint32_t divisor;
 
 uint8_t pit_timeout_reached(){
     return pit_timeout_value > 0 ? 0 : 1;
@@ -44,7 +45,7 @@ void timer_init(uint32_t frequency)
    // The value we send to the PIT is the value to divide it's input clock
    // (1193180 Hz) by, to get our required frequency. Important to note is
    // that the divisor must be small enough to fit into 16-bits.
-   uint32_t divisor = 1193180 / frequency;
+   divisor = 1193180 / frequency;
 
    // Send the command byte.
    outb(0x43, 0x36);
@@ -59,7 +60,6 @@ void timer_init(uint32_t frequency)
 } 
 
 void sleep(uint32_t ms){
-    while(sleep_count){
-        
-    };
+    sleep_count = (ms/((double)10000/divisor)) + 1;
+    while(sleep_count);
 }
