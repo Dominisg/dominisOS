@@ -6,7 +6,6 @@
 #include <kernel/pci.h>
 #include <kernel/clock.h>
 #include <kernel/ps2.h>
-#include <kernel/ata.h>
 #include <time.h>
 
 

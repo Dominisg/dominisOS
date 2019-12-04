@@ -19,9 +19,11 @@ LIBS:=$(LIBS) -nostdlib -lk -lgcc
 
 ARCHDIR=arch/$(HOSTARCH)
 DRIVERDIR=drivers
+TOOLDIR=tools
 
 include $(ARCHDIR)/make.config
 include $(DRIVERDIR)/make.config
+include $(TOOLDIR)/make.config
 
 CFLAGS:=$(CFLAGS) $(KERNEL_ARCH_CFLAGS)
 CPPFLAGS:=$(CPPFLAGS) $(KERNEL_ARCH_CPPFLAGS)
@@ -31,6 +33,7 @@ LIBS:=$(LIBS) $(KERNEL_ARCH_LIBS)
 KERNEL_OBJS=\
 $(KERNEL_ARCH_OBJS) \
 $(KERNEL_DRIVERS_OBJS) \
+$(KERNEL_TOOL_OBJS) \
 kernel/term.o \
 kernel/kernel.o \
 
