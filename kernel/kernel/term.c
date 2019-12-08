@@ -6,7 +6,7 @@
 #include <kernel/vfs.h>
 
 #define COMMAND_PROMPT "COMMAND $ "
-#define CMD_CNT 3
+#define CMD_CNT 4
 
 struct term_cmd{
     char cmd[16];
@@ -19,7 +19,8 @@ char* params[7];
 struct term_cmd cmds[] = 
 {{"drvmng", drvmng}, 
  {"ls", ls},
- {"cd", cd}
+ {"cd", cd},
+ {"cat", cat}
 };
 
 static char command[80];

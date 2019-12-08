@@ -56,21 +56,26 @@ struct fat_file_descriptor{
     uint32_t file_size;
 } __attribute__((packed)) directory[16];
 
+void fat_get_partition_info(){
+        if(fat_partition_info.bytes_per_sector == 0){
+        if((ide_ata_access(ATA_READ, drive, partition_begin_lba, 1,  (uint16_t*) &disk_buffer))!=0){
+            return;
+        }
+
+        memcpy(&fat_partition_info, &(disk_buffer[0x0b]), sizeof(fat_partition_info));
+    }
+}
+
 
 void fat_read_dir(struct vfs_file* vfs_dir, struct vfs_file* vfs_dir_file){
     uint8_t res;
     uint8_t virt_iter = 0;
     uint32_t dir_lba;
 
-    if((res = ide_ata_access(ATA_READ, drive, partition_begin_lba, 1,  (uint16_t*) &disk_buffer))!=0){
-        return;
-    }
-
-    memcpy(&fat_partition_info, &(disk_buffer[0x0b]), sizeof(fat_partition_info));
+    fat_get_partition_info();
 
     uint32_t fat_begin_lba = partition_begin_lba + fat_partition_info.reserved_sectors;
     uint32_t cluster_begin_lba = fat_begin_lba + (fat_partition_info.fat_copies * fat_partition_info.logical_sectors_per_fat);
-
 
     if(vfs_dir_file == NULL){ // read root
         dir_lba = cluster_begin_lba + (fat_partition_info.root_dir_cluster - 2) 
@@ -80,6 +85,7 @@ void fat_read_dir(struct vfs_file* vfs_dir, struct vfs_file* vfs_dir_file){
         if(!(vfs_dir_file->attr &= VFS_ATTR_FOLDER))
         {
             printf("File is not a directory!\n");
+            return;
         }
         dir_lba = cluster_begin_lba + ((directory[ref].first_cluster_low | (uint32_t)(directory[ref].first_cluster_high << 16)) - 2) 
                 * fat_partition_info.sectors_per_cluster;
@@ -138,9 +144,40 @@ void fat_read_dir(struct vfs_file* vfs_dir, struct vfs_file* vfs_dir_file){
 
 }
 
+uint8_t* fat_read_file(struct vfs_file* file){
+    uint32_t file_lba;
+    uint8_t ref;
+    fat_get_partition_info();
+
+    uint32_t fat_begin_lba = partition_begin_lba + fat_partition_info.reserved_sectors;
+    uint32_t cluster_begin_lba = fat_begin_lba + (fat_partition_info.fat_copies * fat_partition_info.logical_sectors_per_fat);
+
+        ref = file->fsystem_ref; 
+        if((file->attr &= VFS_ATTR_FOLDER))
+        {
+            printf("File is a directory!\n");
+            return;
+        }
+    file_lba = cluster_begin_lba + ((directory[ref].first_cluster_low | (uint32_t)(directory[ref].first_cluster_high << 16)) - 2) 
+                * fat_partition_info.sectors_per_cluster;
+    
+    if((ide_ata_access(ATA_READ, drive, file_lba, 1,  (uint16_t*) &disk_buffer))!=0){
+        return NULL;
+    }
+    if(file->size < 512){
+        disk_buffer[file->size] = 0;
+    }else{
+        disk_buffer[512] = 0;
+    }
+
+    return disk_buffer;
+}
+
 void fat_mount(uint8_t disk, uint32_t lba_begin){
     drive = disk;
     partition_begin_lba = lba_begin;
-    vfs_mount(fat_read_dir, NULL);
+    vfs_mount(fat_read_dir, fat_read_file);
+    memset(&fat_partition_info, 0, sizeof(fat_partition_info));
 }
+
 

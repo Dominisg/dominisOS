@@ -14,6 +14,39 @@ void vfs_read_dir(struct vfs_file* dir, struct vfs_file* file){
     }
 }
 
+int8_t* vfs_read_file(struct vfs_file* file){
+    if(read_file_ptr != NULL){
+        return read_file_ptr(file);
+    }
+    return NULL;
+}
+
+int8_t* vfs_get_file(char* fname){
+
+    if(current_dir[0].filename[0]==0){
+        vfs_read_dir(current_dir, NULL);
+    }
+
+    for (size_t i = 0; i < DIR_MAX_SIZE; i++){
+        if(current_dir[i].filename[0] == 0){
+            break;
+        }
+        if(memcmp(fname, current_dir[i].filename, strlen(current_dir[i].filename)) == 0
+            && strlen(fname) == strlen(current_dir[i].filename)){
+            return vfs_read_file(&current_dir[i]);
+            
+        }
+    }
+    printf("No such a file or directory\n");
+    return NULL;
+}
+
+
+void vfs_mount(void* read_dir_fnc, void* read_file_fnc){
+    read_dir_ptr = (vfs_read_dir_f)read_dir_fnc;
+    read_file_ptr = (vfs_read_file_f)read_file_fnc;
+}
+
 void ls(char** params){
     uint8_t i=0, long_mode=0;
 
@@ -58,7 +91,7 @@ void ls(char** params){
 }
 
 void cd(char** params){
-
+    uint8_t success = 0;
     if(current_dir[0].filename[0]==0){
         vfs_read_dir(current_dir, NULL);
     }
@@ -70,12 +103,17 @@ void cd(char** params){
         if(memcmp(params[0], current_dir[i].filename, strlen(current_dir[i].filename)) == 0
             && strlen(params[0]) == strlen(current_dir[i].filename)){
             vfs_read_dir(current_dir, &current_dir[i]);
+            success = 1;
             break;
         }
     }
+    if(!success){
+        printf("No such a file or directory\n");
+    }
 }
 
-void vfs_mount(void* read_dir_fnc, void* read_file_fnc){
-    read_dir_ptr = (vfs_read_dir_f)read_dir_fnc;
-    read_file_ptr = (vfs_read_file_f)read_file_fnc;
+void cat(char** params){
+    char* file = vfs_get_file(params[0]);
+    if(file)
+        printf("%s", file);
 }

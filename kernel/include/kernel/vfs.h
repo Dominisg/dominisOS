@@ -14,10 +14,11 @@ struct vfs_file{
 };
 
 typedef void (*vfs_read_dir_f)(struct vfs_file*, struct vfs_file*);
-typedef int8_t* (*vfs_read_file_f)(struct vfs_file);
+typedef int8_t* (*vfs_read_file_f)(struct vfs_file*);
 
 void ls(char** params);
 void vfs_mount(void* read_dir_fnc, void* read_file_fnc);
 void cd(char** params);
+void cat(char** params);
 
 #endif 
