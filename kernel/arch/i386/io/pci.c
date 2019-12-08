@@ -76,9 +76,9 @@ uint16_t checkifIDE(uint8_t bus, uint8_t slot, uint8_t* func) {
 
 
 uint16_t findIDEConrollerDevice(){
-    uint16_t bus, ide_bus=0;
-    uint8_t device, ide_device=0;
-    uint8_t function=0, ide_func=0;
+    uint16_t bus;
+    uint8_t device;
+    uint8_t function=0;
 
     for(bus = 0; bus < 256; bus++) {
         for(device = 0; device < 32; device++) {

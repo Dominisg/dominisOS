@@ -11,5 +11,6 @@ void terminal_writestring(const char* data);
 void terminal_printclock(struct tm* sys_time);
 void terminal_clear();
 void terminal_popchar();
+void terminal_setcolor(uint8_t);
 
 #endif

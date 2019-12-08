@@ -234,7 +234,7 @@ void ide_print_summary(){
    }
 }
 
-void ide_initialize(uint32_t BAR0, uint32_t BAR1, uint32_t BAR2, uint32_t BAR3,
+void ide_init(uint32_t BAR0, uint32_t BAR1, uint32_t BAR2, uint32_t BAR3,
 uint32_t BAR4) {
  
    size_t i, j, k, count = 0;
@@ -343,13 +343,9 @@ uint8_t ide_ata_access(uint8_t direction, uint8_t drive, uint32_t lba,
 
    if(ide_devices[drive].type == IDE_ATAPI){
       err=5;
-   }
-
-   if(ide_devices[drive].reserved == 0 ){
+   }else if(ide_devices[drive].reserved == 0 ){
       err=6;
-   }
-
-   if(lba + numsects> ide_devices[drive].size){
+   }else if(lba + numsects> ide_devices[drive].size){
       err=7;
    }
 

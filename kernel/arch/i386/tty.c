@@ -4,10 +4,9 @@
 #include <string.h>
 #include <time.h>
 #include <kernel/io_utils.h>
-
 #include <kernel/tty.h>
+#include <kernel/vga.h>
 
-#include "vga.h"
 static void update_cursor(uint8_t x, uint8_t y);
 
 static const size_t VGA_WIDTH = 80;

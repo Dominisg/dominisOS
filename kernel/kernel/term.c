@@ -3,13 +3,26 @@
 #include <string.h>
 #include <stdio.h>
 #include <kernel/drvmng.h>
+#include <kernel/vfs.h>
+
 #define COMMAND_PROMPT "COMMAND $ "
+#define CMD_CNT 2
+
+struct term_cmd{
+    char cmd[16];
+    void (*func)(char** params);
+};
+
 uint8_t line_count = 0;
+char* params[7];
+
+struct term_cmd cmds[] = 
+{{"drvmng", drvmng}, 
+ {"ls", ls}
+};
 
 static char command[80];
 static char command_list[8][32];
-
-uint8_t* params[7];
 
 void shell_init(){
     terminal_writestring(COMMAND_PROMPT);
@@ -35,14 +48,15 @@ void shell_execute(){
         }
     }
     
-    for(int i=0; i<7; i++){
+    for(size_t i=0; i<7; i++){
         params[i] = command_list[i+1];
     }
 
-    if(memcmp("drvmng", command_list[0], strlen("drvmng")) == 0){
-        drvmng(params);
-    }else{
-        printf("%s - looks strange to me\n", command_list[0]);
+    for(size_t i = 0; i <CMD_CNT; i++){
+        if(memcmp(cmds[i].cmd, command_list[0], strlen(cmds[i].cmd)) == 0 && strlen(cmds[i].cmd) == strlen(command_list[0])){
+            cmds[i].func(params);
+            break;
+        }
     }
 
     memset(command_list,0,sizeof(command_list));

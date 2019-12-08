@@ -1,0 +1,94 @@
+!_TAG_FILE_SORTED	2	/0=unsorted, 1=sorted, 2=foldcase/
+ATAPI_CMD_EJECT	/home/dominis/dominis-os/kernel/drivers/ata.c	58;"	d	language:C++	file:
+ATAPI_CMD_READ	/home/dominis/dominis-os/kernel/drivers/ata.c	57;"	d	language:C++	file:
+atapi_packet	/home/dominis/dominis-os/kernel/drivers/ata.c	/^static uint8_t atapi_packet[12] = {0xA8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};$/;"	v	language:C++	file:
+ATA_CMD_CACHE_FLUSH	/home/dominis/dominis-os/kernel/drivers/ata.c	52;"	d	language:C++	file:
+ATA_CMD_CACHE_FLUSH_EXT	/home/dominis/dominis-os/kernel/drivers/ata.c	53;"	d	language:C++	file:
+ATA_CMD_IDENTIFY	/home/dominis/dominis-os/kernel/drivers/ata.c	56;"	d	language:C++	file:
+ATA_CMD_IDENTIFY_PACKET	/home/dominis/dominis-os/kernel/drivers/ata.c	55;"	d	language:C++	file:
+ATA_CMD_PACKET	/home/dominis/dominis-os/kernel/drivers/ata.c	54;"	d	language:C++	file:
+ATA_CMD_READ_DMA	/home/dominis/dominis-os/kernel/drivers/ata.c	46;"	d	language:C++	file:
+ATA_CMD_READ_DMA_EXT	/home/dominis/dominis-os/kernel/drivers/ata.c	47;"	d	language:C++	file:
+ATA_CMD_READ_PIO	/home/dominis/dominis-os/kernel/drivers/ata.c	44;"	d	language:C++	file:
+ATA_CMD_READ_PIO_EXT	/home/dominis/dominis-os/kernel/drivers/ata.c	45;"	d	language:C++	file:
+ATA_CMD_WRITE_DMA	/home/dominis/dominis-os/kernel/drivers/ata.c	50;"	d	language:C++	file:
+ATA_CMD_WRITE_DMA_EXT	/home/dominis/dominis-os/kernel/drivers/ata.c	51;"	d	language:C++	file:
+ATA_CMD_WRITE_PIO	/home/dominis/dominis-os/kernel/drivers/ata.c	48;"	d	language:C++	file:
+ATA_CMD_WRITE_PIO_EXT	/home/dominis/dominis-os/kernel/drivers/ata.c	49;"	d	language:C++	file:
+ATA_ER_ABRT	/home/dominis/dominis-os/kernel/drivers/ata.c	39;"	d	language:C++	file:
+ATA_ER_AMNF	/home/dominis/dominis-os/kernel/drivers/ata.c	41;"	d	language:C++	file:
+ATA_ER_BBK	/home/dominis/dominis-os/kernel/drivers/ata.c	34;"	d	language:C++	file:
+ATA_ER_IDNF	/home/dominis/dominis-os/kernel/drivers/ata.c	37;"	d	language:C++	file:
+ATA_ER_MC	/home/dominis/dominis-os/kernel/drivers/ata.c	36;"	d	language:C++	file:
+ATA_ER_MCR	/home/dominis/dominis-os/kernel/drivers/ata.c	38;"	d	language:C++	file:
+ATA_ER_TK0NF	/home/dominis/dominis-os/kernel/drivers/ata.c	40;"	d	language:C++	file:
+ATA_ER_UNC	/home/dominis/dominis-os/kernel/drivers/ata.c	35;"	d	language:C++	file:
+ATA_IDENT_CAPABILITIES	/home/dominis/dominis-os/kernel/drivers/ata.c	67;"	d	language:C++	file:
+ATA_IDENT_COMMANDSETS	/home/dominis/dominis-os/kernel/drivers/ata.c	70;"	d	language:C++	file:
+ATA_IDENT_CYLINDERS	/home/dominis/dominis-os/kernel/drivers/ata.c	62;"	d	language:C++	file:
+ATA_IDENT_DEVICETYPE	/home/dominis/dominis-os/kernel/drivers/ata.c	61;"	d	language:C++	file:
+ATA_IDENT_FIELDVALID	/home/dominis/dominis-os/kernel/drivers/ata.c	68;"	d	language:C++	file:
+ATA_IDENT_HEADS	/home/dominis/dominis-os/kernel/drivers/ata.c	63;"	d	language:C++	file:
+ATA_IDENT_MAX_LBA	/home/dominis/dominis-os/kernel/drivers/ata.c	69;"	d	language:C++	file:
+ATA_IDENT_MAX_LBA_EXT	/home/dominis/dominis-os/kernel/drivers/ata.c	71;"	d	language:C++	file:
+ATA_IDENT_MODEL	/home/dominis/dominis-os/kernel/drivers/ata.c	66;"	d	language:C++	file:
+ATA_IDENT_SECTORS	/home/dominis/dominis-os/kernel/drivers/ata.c	64;"	d	language:C++	file:
+ATA_IDENT_SERIAL	/home/dominis/dominis-os/kernel/drivers/ata.c	65;"	d	language:C++	file:
+ATA_MASTER	/home/dominis/dominis-os/kernel/drivers/ata.c	19;"	d	language:C++	file:
+ATA_PRIMARY	/home/dominis/dominis-os/kernel/drivers/ata.c	7;"	d	language:C++	file:
+ATA_READ	/home/dominis/dominis-os/kernel/drivers/ata.c	11;"	d	language:C++	file:
+ATA_REG_ALTSTATUS	/home/dominis/dominis-os/kernel/drivers/ata.c	89;"	d	language:C++	file:
+ATA_REG_COMMAND	/home/dominis/dominis-os/kernel/drivers/ata.c	82;"	d	language:C++	file:
+ATA_REG_CONTROL	/home/dominis/dominis-os/kernel/drivers/ata.c	88;"	d	language:C++	file:
+ATA_REG_DATA	/home/dominis/dominis-os/kernel/drivers/ata.c	74;"	d	language:C++	file:
+ATA_REG_DEVADDRESS	/home/dominis/dominis-os/kernel/drivers/ata.c	90;"	d	language:C++	file:
+ATA_REG_ERROR	/home/dominis/dominis-os/kernel/drivers/ata.c	75;"	d	language:C++	file:
+ATA_REG_FEATURES	/home/dominis/dominis-os/kernel/drivers/ata.c	76;"	d	language:C++	file:
+ATA_REG_HDDEVSEL	/home/dominis/dominis-os/kernel/drivers/ata.c	81;"	d	language:C++	file:
+ATA_REG_LBA0	/home/dominis/dominis-os/kernel/drivers/ata.c	78;"	d	language:C++	file:
+ATA_REG_LBA1	/home/dominis/dominis-os/kernel/drivers/ata.c	79;"	d	language:C++	file:
+ATA_REG_LBA2	/home/dominis/dominis-os/kernel/drivers/ata.c	80;"	d	language:C++	file:
+ATA_REG_LBA3	/home/dominis/dominis-os/kernel/drivers/ata.c	85;"	d	language:C++	file:
+ATA_REG_LBA4	/home/dominis/dominis-os/kernel/drivers/ata.c	86;"	d	language:C++	file:
+ATA_REG_LBA5	/home/dominis/dominis-os/kernel/drivers/ata.c	87;"	d	language:C++	file:
+ATA_REG_SECCOUNT0	/home/dominis/dominis-os/kernel/drivers/ata.c	77;"	d	language:C++	file:
+ATA_REG_SECCOUNT1	/home/dominis/dominis-os/kernel/drivers/ata.c	84;"	d	language:C++	file:
+ATA_REG_STATUS	/home/dominis/dominis-os/kernel/drivers/ata.c	83;"	d	language:C++	file:
+ATA_SECONDARY	/home/dominis/dominis-os/kernel/drivers/ata.c	8;"	d	language:C++	file:
+ATA_SLAVE	/home/dominis/dominis-os/kernel/drivers/ata.c	20;"	d	language:C++	file:
+ATA_SR_BSY	/home/dominis/dominis-os/kernel/drivers/ata.c	24;"	d	language:C++	file:
+ATA_SR_CORR	/home/dominis/dominis-os/kernel/drivers/ata.c	29;"	d	language:C++	file:
+ATA_SR_DF	/home/dominis/dominis-os/kernel/drivers/ata.c	26;"	d	language:C++	file:
+ATA_SR_DRDY	/home/dominis/dominis-os/kernel/drivers/ata.c	25;"	d	language:C++	file:
+ATA_SR_DRQ	/home/dominis/dominis-os/kernel/drivers/ata.c	28;"	d	language:C++	file:
+ATA_SR_DSC	/home/dominis/dominis-os/kernel/drivers/ata.c	27;"	d	language:C++	file:
+ATA_SR_ERR	/home/dominis/dominis-os/kernel/drivers/ata.c	31;"	d	language:C++	file:
+ATA_SR_IDX	/home/dominis/dominis-os/kernel/drivers/ata.c	30;"	d	language:C++	file:
+ATA_WRITE	/home/dominis/dominis-os/kernel/drivers/ata.c	12;"	d	language:C++	file:
+base	/home/dominis/dominis-os/kernel/drivers/ata.c	/^   uint16_t base;  \/\/ I\/O Base.$/;"	m	language:C++	struct:IDEChannelRegisters	file:
+bmide	/home/dominis/dominis-os/kernel/drivers/ata.c	/^   uint16_t bmide; \/\/ Bus Master IDE$/;"	m	language:C++	struct:IDEChannelRegisters	file:
+capabilities	/home/dominis/dominis-os/kernel/drivers/ata.c	/^   uint16_t capabilities;  \/\/ Features.$/;"	m	language:C++	struct:ide_device	file:
+channel	/home/dominis/dominis-os/kernel/drivers/ata.c	/^   uint8_t  channel;       \/\/ 0 (Primary Channel) or 1 (Secondary Channel).$/;"	m	language:C++	struct:ide_device	file:
+channels	/home/dominis/dominis-os/kernel/drivers/ata.c	/^} channels[2];$/;"	v	language:C++	typeref:struct:IDEChannelRegisters
+commandSets	/home/dominis/dominis-os/kernel/drivers/ata.c	/^   uint32_t commandSets; \/\/ Command Sets Supported.$/;"	m	language:C++	struct:ide_device	file:
+ctrl	/home/dominis/dominis-os/kernel/drivers/ata.c	/^   uint16_t ctrl;  \/\/ Control Base$/;"	m	language:C++	struct:IDEChannelRegisters	file:
+drive	/home/dominis/dominis-os/kernel/drivers/ata.c	/^   uint8_t  drive;         \/\/ 0 (Master Drive) or 1 (Slave Drive).$/;"	m	language:C++	struct:ide_device	file:
+IDEChannelRegisters	/home/dominis/dominis-os/kernel/drivers/ata.c	/^struct IDEChannelRegisters {$/;"	s	language:C++	file:
+IDE_ATA	/home/dominis/dominis-os/kernel/drivers/ata.c	15;"	d	language:C++	file:
+IDE_ATAPI	/home/dominis/dominis-os/kernel/drivers/ata.c	16;"	d	language:C++	file:
+ide_buf	/home/dominis/dominis-os/kernel/drivers/ata.c	/^uint8_t ide_buf[2048] = {0};$/;"	v	language:C++
+ide_device	/home/dominis/dominis-os/kernel/drivers/ata.c	/^struct ide_device {$/;"	s	language:C++	file:
+ide_devices	/home/dominis/dominis-os/kernel/drivers/ata.c	/^} ide_devices[4];$/;"	v	language:C++	typeref:struct:ide_device
+ide_initialize	/home/dominis/dominis-os/kernel/drivers/ata.c	/^void ide_initialize(uint32_t BAR0, uint32_t BAR1, uint32_t BAR2, uint32_t BAR3,$/;"	f	language:C++
+ide_irq_invoked	/home/dominis/dominis-os/kernel/drivers/ata.c	/^static uint8_t ide_irq_invoked = 0;$/;"	v	language:C++	file:
+ide_polling	/home/dominis/dominis-os/kernel/drivers/ata.c	/^uint8_t ide_polling(uint8_t channel, uint32_t advanced_check) {$/;"	f	language:C++
+ide_print_error	/home/dominis/dominis-os/kernel/drivers/ata.c	/^uint8_t ide_print_error(uint32_t drive, uint8_t err) {$/;"	f	language:C++
+ide_read	/home/dominis/dominis-os/kernel/drivers/ata.c	/^uint8_t ide_read(uint8_t channel, uint8_t reg) {$/;"	f	language:C++
+ide_readw	/home/dominis/dominis-os/kernel/drivers/ata.c	/^uint8_t ide_readw(uint8_t channel, uint8_t reg) {$/;"	f	language:C++
+ide_write	/home/dominis/dominis-os/kernel/drivers/ata.c	/^void ide_write(uint8_t channel, uint8_t reg, uint8_t data) {$/;"	f	language:C++
+model	/home/dominis/dominis-os/kernel/drivers/ata.c	/^   uint8_t  model[41];     \/\/ Model in string.$/;"	m	language:C++	struct:ide_device	file:
+nIEN	/home/dominis/dominis-os/kernel/drivers/ata.c	/^   uint8_t nIEN;  \/\/ nIEN (No Interrupt);$/;"	m	language:C++	struct:IDEChannelRegisters	file:
+reserved	/home/dominis/dominis-os/kernel/drivers/ata.c	/^   uint8_t  reserved;      \/\/ 0 (Empty) or 1 (This Drive really exists).$/;"	m	language:C++	struct:ide_device	file:
+signature	/home/dominis/dominis-os/kernel/drivers/ata.c	/^   uint16_t signature;     \/\/ Drive Signature$/;"	m	language:C++	struct:ide_device	file:
+size	/home/dominis/dominis-os/kernel/drivers/ata.c	/^   uint32_t size;        \/\/ Size in Sectors.$/;"	m	language:C++	struct:ide_device	file:
+type	/home/dominis/dominis-os/kernel/drivers/ata.c	/^   uint16_t type;          \/\/ 0: ATA, 1:ATAPI.$/;"	m	language:C++	struct:ide_device	file:
