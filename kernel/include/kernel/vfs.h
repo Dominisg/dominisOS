@@ -7,7 +7,7 @@
 #define DIR_MAX_SIZE 64
 
 struct vfs_file{
-    int8_t filename[DIR_MAX_SIZE];
+    char filename[DIR_MAX_SIZE];
     uint8_t attr;
     uint8_t fsystem_ref;
     uint32_t size;
@@ -18,5 +18,6 @@ typedef int8_t* (*vfs_read_file_f)(struct vfs_file);
 
 void ls(char** params);
 void vfs_mount(void* read_dir_fnc, void* read_file_fnc);
+void cd(char** params);
 
 #endif 

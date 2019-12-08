@@ -6,13 +6,17 @@
 
 static struct vfs_file current_dir[DIR_MAX_SIZE];
 static vfs_read_dir_f read_dir_ptr=NULL;
-
 static vfs_read_file_f read_file_ptr=NULL;
+
+void vfs_read_dir(struct vfs_file* dir, struct vfs_file* file){
+    if(read_dir_ptr != NULL){
+        read_dir_ptr(dir, file);
+    }
+}
 
 void ls(char** params){
     uint8_t i=0, long_mode=0;
 
-    memset(current_dir, 0, sizeof(current_dir));
     if(params[0][0] == '-'){
         while(params[0][i]){
             
@@ -27,9 +31,10 @@ void ls(char** params){
         }
     }
 
-    if(read_dir_ptr != NULL){
-        read_dir_ptr(current_dir, NULL);
+    if(current_dir[0].filename[0]==0){
+        vfs_read_dir(current_dir, NULL);
     }
+
     for (size_t i = 0; i < DIR_MAX_SIZE; i++){
         if(current_dir[i].filename[0] == 0){
             if(i!=0 && !long_mode){
@@ -48,6 +53,24 @@ void ls(char** params){
 
         if(long_mode){
             printf("%d B\n", current_dir[i].size);
+        }
+    }
+}
+
+void cd(char** params){
+
+    if(current_dir[0].filename[0]==0){
+        vfs_read_dir(current_dir, NULL);
+    }
+
+    for (size_t i = 0; i < DIR_MAX_SIZE; i++){
+        if(current_dir[i].filename[0] == 0){
+            break;
+        }
+        if(memcmp(params[0], current_dir[i].filename, strlen(current_dir[i].filename)) == 0
+            && strlen(params[0]) == strlen(current_dir[i].filename)){
+            vfs_read_dir(current_dir, &current_dir[i]);
+            break;
         }
     }
 }

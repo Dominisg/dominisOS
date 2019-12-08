@@ -3,6 +3,7 @@
 #include <kernel/ata.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #define BUFFER_SECTORS 2 // Using because don't have heap implemented yet
 #define FAT_ATTR_FOLDER 0x10
 
@@ -59,26 +60,41 @@ struct fat_file_descriptor{
 void fat_read_dir(struct vfs_file* vfs_dir, struct vfs_file* vfs_dir_file){
     uint8_t res;
     uint8_t virt_iter = 0;
-    if(vfs_dir_file == NULL){ // read root
-        if((res = ide_ata_access(ATA_READ, drive, partition_begin_lba, 1,  (uint16_t*) &disk_buffer))!=0){
-            return;
-        }
-        
-        memcpy(&fat_partition_info, &(disk_buffer[0x0b]), sizeof(fat_partition_info));
-        uint32_t fat_begin_lba = partition_begin_lba + fat_partition_info.reserved_sectors;
-        uint32_t cluster_begin_lba = fat_begin_lba + (fat_partition_info.fat_copies * fat_partition_info.logical_sectors_per_fat);
+    uint32_t dir_lba;
 
-        uint32_t root_dir_lba = cluster_begin_lba + (fat_partition_info.root_dir_cluster - 2) 
+    if((res = ide_ata_access(ATA_READ, drive, partition_begin_lba, 1,  (uint16_t*) &disk_buffer))!=0){
+        return;
+    }
+
+    memcpy(&fat_partition_info, &(disk_buffer[0x0b]), sizeof(fat_partition_info));
+
+    uint32_t fat_begin_lba = partition_begin_lba + fat_partition_info.reserved_sectors;
+    uint32_t cluster_begin_lba = fat_begin_lba + (fat_partition_info.fat_copies * fat_partition_info.logical_sectors_per_fat);
+
+
+    if(vfs_dir_file == NULL){ // read root
+        dir_lba = cluster_begin_lba + (fat_partition_info.root_dir_cluster - 2) 
                 * fat_partition_info.sectors_per_cluster;
-        
-        if((res = ide_ata_access(ATA_READ, drive, root_dir_lba, 1,  (uint16_t*) &directory))!=0){
-            return;
+    }else{
+        uint8_t ref = vfs_dir_file->fsystem_ref; 
+        if(!(vfs_dir_file->attr &= VFS_ATTR_FOLDER))
+        {
+            printf("File is not a directory!\n");
         }
+        dir_lba = cluster_begin_lba + ((directory[ref].first_cluster_low | (uint32_t)(directory[ref].first_cluster_high << 16)) - 2) 
+                * fat_partition_info.sectors_per_cluster;
+    }
+
+    if((res = ide_ata_access(ATA_READ, drive, dir_lba, 1,  (uint16_t*) &directory))!=0){
+        return;
     }
 
     int8_t filename_buffer[64];
     filename_buffer[0] = 0;
-    for (int i = 0; i < 16; i++){
+
+    memset(vfs_dir, 0, DIR_MAX_SIZE * sizeof(struct vfs_file));
+
+    for (size_t i = 0; i < 16; i++){
         if (directory[i].filename[0] == 0)
             break;
         if ((uint8_t)directory[i].filename[0] == 0xe5)
@@ -96,10 +112,19 @@ void fat_read_dir(struct vfs_file* vfs_dir, struct vfs_file* vfs_dir_file){
                 filename_buffer[cnt++] = *(directory[i].filename + j);
             }
         }else{
-            if(filename_buffer[0] == 0)
+            if(filename_buffer[0] == 0){
                 memcpy(vfs_dir[virt_iter].filename, directory[i].filename, sizeof(vfs_dir[virt_iter].filename));
-            else
+                vfs_dir[virt_iter].filename[11] = 0;
+                for (size_t j = 0; j<11; j++){
+                    if(vfs_dir[virt_iter].filename[j] == ' '){
+                        vfs_dir[virt_iter].filename[j] = 0;
+                        break;
+                    }
+                }
+            }else{
                 memcpy(vfs_dir[virt_iter].filename, filename_buffer, sizeof(vfs_dir[virt_iter].filename));
+            }
+
             vfs_dir[virt_iter].size = directory[i].file_size;
             vfs_dir[virt_iter].fsystem_ref = i;
             if(directory[i].attrib & FAT_ATTR_FOLDER)

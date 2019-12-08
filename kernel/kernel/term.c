@@ -6,7 +6,7 @@
 #include <kernel/vfs.h>
 
 #define COMMAND_PROMPT "COMMAND $ "
-#define CMD_CNT 2
+#define CMD_CNT 3
 
 struct term_cmd{
     char cmd[16];
@@ -18,7 +18,8 @@ char* params[7];
 
 struct term_cmd cmds[] = 
 {{"drvmng", drvmng}, 
- {"ls", ls}
+ {"ls", ls},
+ {"cd", cd}
 };
 
 static char command[80];
@@ -29,7 +30,7 @@ void shell_init(){
 }
 
 void shell_execute(){
-    uint8_t cur_param=0, cur_letter=0;
+    uint8_t cur_param=0, cur_letter=0, printed=0;
     for(int i=0; i<80; i++){
         if(command[i] == '\0')
             break;
@@ -55,8 +56,12 @@ void shell_execute(){
     for(size_t i = 0; i <CMD_CNT; i++){
         if(memcmp(cmds[i].cmd, command_list[0], strlen(cmds[i].cmd)) == 0 && strlen(cmds[i].cmd) == strlen(command_list[0])){
             cmds[i].func(params);
+            printed=1;
             break;
         }
+    }
+    if(!printed){
+        printf("%s - looks strange for me\n",command_list[0]);
     }
 
     memset(command_list,0,sizeof(command_list));
