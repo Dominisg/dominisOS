@@ -6,7 +6,7 @@
 #include <kernel/keyboard.h>
 #include <stdio.h>
 
-#define TIMEOUT_DURATION 50
+#define TIMEOUT_DURATION 10
 #define PS2_DATA_PORT 0x60
 #define PS2_CMD_PORT 0x64
 #define ACK_CMD 0xFA
@@ -66,7 +66,7 @@ uint8_t PS2Controller_Read(){
         return inb(PS2_DATA_PORT);
     }
     else{
-         printf("PS/2: Nothing to read!\n");
+        //printf("PS/2: Nothing to read!\n");
         return 0;
     }
 }
@@ -147,7 +147,7 @@ uint8_t PS2Controller_Init(){
     result = PS2Controller_Read();
     if(result != 0x55){
         printf("PS/2: Self test failed!\n");
-        //return 1;
+        return 1;
     }
 
     if(dualchannel){

@@ -83,6 +83,14 @@ void shell_putchar(char character){
         line_count = 0;
         command[line_count]='\0';
     }
+    if(character == '\t'){
+        
+        command[line_count-1]=' ';
+        command[line_count++]=' ';
+        command[line_count++]=' ';
+        command[line_count++]=' ';
+        command[line_count]='\0';
+    }
 }
 
 void shell_backspace(){
